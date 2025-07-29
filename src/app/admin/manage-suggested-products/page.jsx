@@ -333,7 +333,7 @@ const AdminManageSuggestedproducts = () => {
 
     {/* Product Display */}
     <div className="max-w-6xl mx-auto mb-10">
-      <h3 className="text-xl text-[#e8e1d9] mb-4">Latest Arrivals</h3>
+      <h3 className="text-xl text-[#e8e1d9] mb-4">You Might-Also-Like</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products.map((prod) => (
           <div
