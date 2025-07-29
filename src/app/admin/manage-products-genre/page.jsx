@@ -127,12 +127,12 @@ const AdminManageProducts = () => {
 
       let res;
       if (editingId) {
-        res = await axios.put(`${API_BASE}/api/genre-products/${editingId}`, form, {
+        res = await axios.put(`/api/genre-products/${editingId}`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("✅ Product updated successfully");
       } else {
-        res = await axios.post(`${API_BASE}/api/genre-products`, form, {
+        res = await axios.post(`/api/genre-products`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("✅ Product added successfully");
@@ -164,7 +164,7 @@ const AdminManageProducts = () => {
 
   const handleDelete = async (genre, id) => {
     try {
-      await axios.delete(`${API_BASE}/api/genre-products/${id}`);
+      await axios.delete(`/api/genre-products/${id}`);
       await fetchProducts();
       alert("🗑️ Product deleted successfully");
     } catch (err) {
