@@ -128,7 +128,7 @@ const AdminManageLatestArrivals = () => {
         });
         alert("✅ Product updated successfully");
       } else {
-        await axios.post(`${API_BASE}/api/latest-arrival`, form, {
+        await axios.post(`/api/latest-arrival`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("✅ Product added successfully");
