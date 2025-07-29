@@ -37,7 +37,8 @@ const AdminManageProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/api/genre-products`);
+    const res = await axios.get(`/api/genre-products`);
+
       setProducts(res.data);
     } catch (err) {
       console.error("❌ Failed to load products", err);
