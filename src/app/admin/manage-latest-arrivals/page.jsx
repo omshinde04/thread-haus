@@ -35,7 +35,7 @@ const AdminManageLatestArrivals = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${API_BASE}/api/latest-arrival`);
+      const res = await axios.get(`/api/latest-arrival`);
       setProducts(res.data);
     } catch (err) {
       console.error("❌ Failed to fetch products", err);
