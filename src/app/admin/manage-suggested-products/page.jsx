@@ -123,12 +123,12 @@ const AdminManageSuggestedproducts = () => {
       });
 
       if (editingId) {
-        await axios.put(`${API_BASE}/api/suggested-products/${editingId}`, form, {
+        await axios.put(`/api/suggested-products/${editingId}`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("✅ Product updated successfully");
       } else {
-        await axios.post(`${API_BASE}/api/suggested-products`, form, {
+        await axios.post(`/api/suggested-products`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("✅ Product added successfully");
@@ -160,7 +160,7 @@ const AdminManageSuggestedproducts = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_BASE}/api/suggested-products/${id}`);
+      await axios.delete(`/api/suggested-products/${id}`);
       await fetchProducts();
       alert("🗑️ Product deleted successfully");
     } catch (err) {
