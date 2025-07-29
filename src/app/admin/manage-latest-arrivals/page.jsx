@@ -123,7 +123,7 @@ const AdminManageLatestArrivals = () => {
       });
 
       if (editingId) {
-        await axios.put(`${API_BASE}/api/latest-arrival/${editingId}`, form, {
+        await axios.put(`/api/latest-arrival/${editingId}`, form, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         alert("✅ Product updated successfully");
@@ -160,7 +160,7 @@ const AdminManageLatestArrivals = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_BASE}/api/latest-arrival/${id}`);
+      await axios.delete(`/api/latest-arrival/${id}`);
       await fetchProducts();
       alert("🗑️ Product deleted successfully");
     } catch (err) {
