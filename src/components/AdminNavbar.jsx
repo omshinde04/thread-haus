@@ -11,19 +11,20 @@ const AdminNavbar = () => {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
-const hideLinks = [
-  "/admin/login",
-  "/admin/signup",
-  "/admin/forgot-password",
-  "/admin/reset-password"
-].includes(pathname);
-
+  // Pages where navbar links should be hidden (e.g. auth pages)
+  const hideLinks = [
+    "/admin/login",
+    "/admin/signup",
+    "/admin/forgot-password",
+    "/admin/reset-password"
+  ].includes(pathname);
 
   const links = [
     { name: "Dashboard", path: "/admin/dashboard" },
     { name: "Manage Products", path: "/admin/manage-products-genre" },
     { name: "Latest Arrivals", path: "/admin/manage-latest-arrivals" },
     { name: "Suggested Products", path: "/admin/manage-suggested-products" },
+    { name: "Manage Offers", path: "/admin/offers" }, // ✅ added correctly
   ];
 
   return (
@@ -76,7 +77,11 @@ const hideLinks = [
             {links.map((link) => {
               const isActive = pathname === link.path;
               return (
-                <Link key={link.path} href={link.path} onClick={() => setIsOpen(false)}>
+                <Link
+                  key={link.path}
+                  href={link.path}
+                  onClick={() => setIsOpen(false)}
+                >
                   <span
                     className={`block w-full px-4 py-2 rounded-md text-sm transition duration-200 cursor-pointer
                       ${

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import Image from "next/image"; // ✅ for optimized image handling
 
 const textVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -31,7 +32,8 @@ const AboutPage = () => {
       transition={{ duration: 1 }}
       className="bg-[#DBD5C7] text-[#3A2D00] min-h-screen py-16 px-6 sm:px-10 lg:px-32 font-poppins"
     >
-      <div className="max-w-5xl mx-auto space-y-8">
+      <div className="max-w-5xl mx-auto space-y-10">
+        {/* Heading */}
         <motion.h1
           className="text-center text-4xl sm:text-5xl font-bold tracking-wide text-[#3A2D00]"
           initial={{ opacity: 0, y: -50 }}
@@ -41,29 +43,52 @@ const AboutPage = () => {
           The Thread Haus
         </motion.h1>
 
-        {paragraphs.map((text, i) => (
-          <motion.p
-            key={i}
-            className="text-lg sm:text-xl leading-relaxed text-[#5F4B32]"
-            variants={textVariants}
-            initial="hidden"
-            animate="visible"
-            custom={i}
-          >
-            {text.includes("The Thread Haus") ? (
-              <>
-                {text.split("The Thread Haus")[0]}
-                <span className="font-semibold text-[#3A2D00]">The Thread Haus</span>
-                {text.split("The Thread Haus")[1]}
-              </>
-            ) : (
-              text
-            )}
-          </motion.p>
-        ))}
+        {/* Premium Rounded Image */}
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
+          className="flex justify-center"
+        >
+          <div className="relative w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden shadow-xl border-4 border-[#A39B89]">
+            <Image
+              src="/images/about.png" // ✅ replace with your actual image
+              alt="Thread Haus Team"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </motion.div>
 
+        {/* About Text */}
+        <div className="space-y-6">
+          {paragraphs.map((text, i) => (
+            <motion.p
+              key={i}
+              className="text-lg sm:text-xl leading-relaxed text-[#5F4B32]"
+              variants={textVariants}
+              initial="hidden"
+              animate="visible"
+              custom={i}
+            >
+              {text.includes("The Thread Haus") ? (
+                <>
+                  {text.split("The Thread Haus")[0]}
+                  <span className="font-semibold text-[#3A2D00]">
+                    The Thread Haus
+                  </span>
+                  {text.split("The Thread Haus")[1]}
+                </>
+              ) : (
+                text
+              )}
+            </motion.p>
+          ))}
+        </div>
+
+        {/* Closing Line */}
         <motion.p
-          className="text-xl font-semibold italic text-[#3A2D00] pt-6 border-t border-[#A39B89]"
+          className="text-xl font-semibold italic text-[#3A2D00] pt-6 border-t border-[#A39B89] text-center"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: paragraphs.length * 0.3 }}
