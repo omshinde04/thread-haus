@@ -1,51 +1,61 @@
 "use client";
 
 import React from "react";
-import { FaArrowRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const HeroSection = ({ onNewCollectionClick }) => {
   return (
-    <section className="w-full min-h-[70vh] sm:min-h-[80vh] flex flex-col items-center justify-center text-center bg-[#DBD5C7] px-4 sm:px-6 md:px-12 py-10 sm:py-16 font-poppins overflow-hidden relative">
-      <motion.h1
-        initial={{ opacity: 0, y: -60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="text-2xl sm:text-4xl md:text-5xl font-bold text-[#3A2D00] leading-snug sm:leading-tight mb-4"
+    <section className="relative w-full h-screen overflow-hidden">
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
       >
-        Where genderless design meets bold expression. <br />
-        <span className="block mt-2">Trends evolve, but authenticity stays timeless.</span>
-      </motion.h1>
+        <source src="/videos/hero.mp4" type="video/mp4" />
+      </video>
 
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        className="text-[#5F4B32] text-base sm:text-lg md:text-xl mb-2 font-light tracking-wide"
-      >
-        Designed for all. Worn by the bold.
-      </motion.p>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 1 }}
-        className="text-[#5F4B32] text-base sm:text-lg md:text-xl mb-8 font-light tracking-wide"
-      >
-        Pranh is not just fashion — it’s identity in motion.
-      </motion.p>
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 md:px-12">
+        {/* Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-white text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold drop-shadow-lg leading-snug sm:leading-tight"
+        >
+          Discover Your Style
+        </motion.h1>
 
-      <motion.button
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        onClick={onNewCollectionClick}
-        className="flex items-center gap-2 bg-[#3A2D00] text-white px-6 py-3 sm:px-8 sm:py-3.5 text-base sm:text-lg rounded-full hover:bg-[#2a2100] transition-all duration-300 shadow-xl"
-      >
-        New Collection <FaArrowRight className="mt-0.5" />
-      </motion.button>
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl lg:text-2xl text-gray-200 max-w-md sm:max-w-xl md:max-w-2xl"
+        >
+          Elevate your wardrobe with our premium new collection
+        </motion.p>
+
+        {/* Premium Button */}
+        <motion.button
+          onClick={onNewCollectionClick}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-6 sm:mt-8 px-5 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base md:text-lg font-semibold text-white 
+                     rounded-full backdrop-blur-md bg-white/10 border border-white/20 
+                     shadow-lg hover:bg-white/20 hover:scale-105 
+                     transition-all duration-300 ease-in-out"
+        >
+          Explore New Collection
+        </motion.button>
+      </div>
     </section>
   );
 };
