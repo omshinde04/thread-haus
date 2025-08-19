@@ -85,7 +85,7 @@ function Navbar() {
         initial={{ y: 0 }}
         animate={{ y: hidden ? "-100%" : "0%" }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="w-full px-6 py-4 shadow-lg bg-white/70 backdrop-blur-md border-b border-yellow-300 sticky top-[40px] z-40" // push below banner
+        className="w-full px-6 py-4 shadow-lg bg-white backdrop-blur-md border-b border-yellow-300 sticky top-[40px] z-40" // push below banner
       >
         <div className="flex justify-between items-center">
           {/* Logo / Brand */}
