@@ -33,57 +33,104 @@ const GenreSection = () => {
   }, []);
 
   const tabs = ["Normal", "Down-Shoulder"];
- return (
-    <section className="bg-white py-10 px-4 sm:px-6 md:px-10 font-poppins overflow-hidden">
-      {/* Heading */}
-      <motion.h2
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.1, duration: 0.6, type: "spring" }}
-        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-[#3A2D00] mb-3 tracking-tight"
-      >
-        Select Your Genres
-      </motion.h2>
+return (
+  <section className="bg-white py-10 px-4 sm:px-6 md:px-10 font-poppins overflow-hidden">
+    {/* Heading */}
+    <motion.h2
+      initial={{ y: -30, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.1, duration: 0.6, type: "spring" }}
+      className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-[#3A2D00] mb-3 tracking-tight"
+    >
+      Select Your Genres
+    </motion.h2>
 
-      {/* Subtext */}
-      <motion.p
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
-        className="text-center text-[#5F4B32] mb-10 max-w-xl mx-auto text-sm sm:text-base leading-relaxed"
-      >
-        We offer carefully selected categories to suit everyone. Choose your
-        category and enjoy shopping!
-      </motion.p>
+    {/* Subtext */}
+    <motion.p
+      initial={{ y: 20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.2, duration: 0.6 }}
+      className="text-center text-[#5F4B32] mb-10 max-w-xl mx-auto text-sm sm:text-base leading-relaxed"
+    >
+      We offer carefully selected categories to suit everyone. Choose your
+      category and enjoy shopping!
+    </motion.p>
 
-      {/* Tabs */}
-      <div className="relative flex flex-wrap justify-center gap-3 sm:gap-8 mb-12 font-semibold text-[#3A2D00] text-sm sm:text-base md:text-lg">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`relative px-2 pb-2 transition-colors duration-300 ${
-              activeTab === tab ? "text-[#3A2D00]" : "text-[#5F4B32]/70"
-            }`}
-          >
-            {tab}
-            {activeTab === tab && (
+    {/* Tabs */}
+    <div className="relative flex flex-wrap justify-center gap-3 sm:gap-8 mb-12 font-semibold text-[#3A2D00] text-sm sm:text-base md:text-lg">
+      {tabs.map((tab) => (
+        <button
+          key={tab}
+          onClick={() => setActiveTab(tab)}
+          className={`relative px-2 pb-2 transition-colors duration-300 ${
+            activeTab === tab ? "text-[#3A2D00]" : "text-[#5F4B32]/70"
+          }`}
+        >
+          {tab}
+          {activeTab === tab && (
+            <motion.div
+              layoutId="underline"
+              className="absolute bottom-0 left-0 h-[3px] w-full rounded bg-[#3A2D00]"
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            />
+          )}
+        </button>
+      ))}
+    </div>
+
+    {/* Products */}
+    <AnimatePresence mode="wait">
+      {loading ? (
+        <p className="text-center text-[#5F4B32]">Loading products...</p>
+      ) : productsByGenre[activeTab]?.length ? (
+        <>
+          {/* ---------- Mobile Premium Grid ---------- */}
+          <div className="grid grid-cols-2 gap-4 md:hidden">
+            {productsByGenre[activeTab].map((product, i) => (
               <motion.div
-                layoutId="underline"
-                className="absolute bottom-0 left-0 h-[3px] w-full rounded bg-[#3A2D00]"
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              />
-            )}
-          </button>
-        ))}
-      </div>
+                key={product._id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 30 }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition duration-300 overflow-hidden"
+              >
+                <Link href={`/product/${product._id}`}>
+                  {/* Image */}
+                  <div className="relative w-full aspect-square bg-gray-50">
+                    <img
+                      src={product.images?.[0] || "/placeholder.png"}
+                      alt={product.name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  </div>
 
-      {/* Products */}
-      <AnimatePresence mode="wait">
-        {loading ? (
-          <p className="text-center text-[#5F4B32]">Loading products...</p>
-        ) : productsByGenre[activeTab]?.length ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {/* Info */}
+                  <div className="p-2">
+                    {/* Product Name */}
+                    <h3 className="text-[#3A2D00] font-medium text-[13px] truncate mb-1">
+                      {product.name}
+                    </h3>
+
+                    {/* Price */}
+                    <div className="flex items-baseline gap-1">
+                      <p className="text-[#3A2D00] font-bold text-sm">
+                        ₹{product.price?.toLocaleString("en-IN")}
+                      </p>
+                      {product.originalPrice && (
+                        <p className="text-gray-400 line-through text-xs">
+                          ₹{product.originalPrice.toLocaleString("en-IN")}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* ---------- Desktop / Tablet Full Cards ---------- */}
+          <div className="hidden md:grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {productsByGenre[activeTab].map((product, i) => (
               <motion.div
                 key={product._id}
@@ -156,12 +203,13 @@ const GenreSection = () => {
               </motion.div>
             ))}
           </div>
-        ) : (
-          <p className="text-center text-[#5F4B32]">No products found.</p>
-        )}
-      </AnimatePresence>
-    </section>
-  );
+        </>
+      ) : (
+        <p className="text-center text-[#5F4B32]">No products found.</p>
+      )}
+    </AnimatePresence>
+  </section>
+);
 
 
 };
