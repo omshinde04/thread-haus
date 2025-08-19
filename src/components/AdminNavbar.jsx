@@ -14,9 +14,6 @@ const AdminNavbar = () => {
   // Pages where navbar links should be hidden (e.g. auth pages)
   const hideLinks = [
     "/admin/login",
-    "/admin/signup",
-    "/admin/forgot-password",
-    "/admin/reset-password"
   ].includes(pathname);
 
   const links = [
