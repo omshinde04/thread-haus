@@ -2,22 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image"; // ✅ FIX: Import Next.js Image
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaHome,
-  FaUserAlt,
-  FaPhoneAlt,
-  FaBars,
-  FaTimes,
-  FaGift,
-  FaBolt,
-  FaTruck,
-} from "react-icons/fa";
+import { FaHome, FaUserAlt, FaPhoneAlt, FaBars, FaTimes } from "react-icons/fa";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [offers, setOffers] = useState([]);
-  const [currentOfferIndex, setCurrentOfferIndex] = useState(0);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
@@ -37,38 +28,12 @@ function Navbar() {
     fetchOffers();
   }, []);
 
-  // Rotate offers every 5 seconds
-  useEffect(() => {
-    if (offers.length === 0) return;
-    const interval = setInterval(() => {
-      setCurrentOfferIndex((prev) => (prev + 1) % offers.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [offers]);
-
-  const currentOffer = offers.length ? offers[currentOfferIndex] : null;
-
   const navItems = [
     { label: "Home", path: "/", icon: <FaHome /> },
     { label: "About", path: "/about", icon: <FaUserAlt /> },
     { label: "Contact", path: "/contact", icon: <FaPhoneAlt /> },
   ];
 
-  // Map icon string from backend to React icon
-  const renderIcon = (icon) => {
-    switch (icon) {
-      case "gift":
-        return <FaGift className="text-[#AD7F2D] text-lg" />;
-      case "bolt":
-        return <FaBolt className="text-[#AD7F2D] text-lg" />;
-      case "truck":
-        return <FaTruck className="text-[#AD7F2D] text-lg" />;
-      default:
-        return <FaGift className="text-[#AD7F2D] text-lg" />;
-    }
-  };
-
-  // Format date to M/D/YYYY
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString("en-US", {
@@ -81,141 +46,142 @@ function Navbar() {
   return (
     <div className="w-full sticky top-0 z-50 font-poppins">
       {/* Top Offer Banner */}
-      <AnimatePresence mode="wait">
-        {currentOffer && (
+      {offers.length > 0 && (
+        <div className="relative w-full overflow-hidden bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 shadow-lg rounded-b-lg">
           <motion.div
-            key={currentOffer._id}
-            initial={{ y: -30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -30, opacity: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="bg-gradient-to-r from-[#F5DEB3] via-[#E5C07B] to-[#F5DEB3] 
-                       text-[#3A2D00] text-center py-2 text-sm sm:text-base 
-                       font-semibold tracking-wide shadow-md flex flex-col sm:flex-row justify-center items-center gap-2"
+            className="whitespace-nowrap flex items-center gap-12 py-2 px-6 text-sm sm:text-base font-semibold text-[#3A2D00] select-none"
+            animate={{ x: ["100%", "-100%"] }}
+            transition={{
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: offers.length * 14,
+              ease: "linear",
+            }}
           >
-            {/* Icon */}
-            {renderIcon(currentOffer.icon)}
-
-            {/* Text + Discount */}
-            <span>
-              {currentOffer.text} — <strong>{currentOffer.discount}% OFF</strong>
-            </span>
-
-            {/* Validity Period */}
-            <span className="text-xs sm:text-sm text-[#5A4A1D]">
-              ({formatDate(currentOffer.validFrom)} →{" "}
-              {formatDate(currentOffer.validTo)})
-            </span>
+            {offers.map((offer) => (
+              <div
+                key={offer._id}
+                className="flex items-center gap-3 pr-6 border-r border-yellow-300 last:border-none hover:scale-105 transition-transform duration-300"
+              >
+                <span className="tracking-wide">
+                  {offer.text} — <strong>{offer.discount}% OFF</strong>
+                </span>
+              </div>
+            ))}
           </motion.div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
 
       {/* Navbar */}
-      <nav className="w-full px-6 py-4 shadow-lg bg-white/80 backdrop-blur-md border-b border-gray-200 relative z-50">
-        <motion.div
-          initial={{ y: -80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex justify-between items-center"
-        >
-          {/* Logo */}
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-2xl sm:text-3xl font-extrabold text-[#3A2D00] tracking-wide hover:text-[#AD7F2D] transition-colors duration-300"
+      <nav className="w-full px-6 py-4 shadow-lg bg-white/70 backdrop-blur-md border-b border-yellow-300 relative z-50">
+        <div className="flex justify-between items-center">
+          {/* Logo / Brand */}
+          <Link
+            href="/"
+            className="text-2xl sm:text-3xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-yellow-600 via-yellow-400 to-yellow-500 hover:scale-105 transition-transform duration-300"
           >
-            <Link href="/">The Thread Haus</Link>
-          </motion.div>
+            The Thread Haus
+          </Link>
 
-          {/* Center Nav */}
-          <motion.ul
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.15, delayChildren: 0.5 } },
-            }}
-            className="hidden md:flex gap-8 text-[#3A2D00] font-medium text-lg absolute left-1/2 -translate-x-1/2"
-          >
+          {/* Desktop Nav */}
+          <ul className="hidden md:flex gap-12 text-[#3A2D00] text-xl">
             {navItems.map(({ label, path, icon }) => (
-              <motion.li
-                key={label}
-                variants={{ hidden: { opacity: 0, y: -20 }, visible: { opacity: 1, y: 0 } }}
-              >
+              <li key={label} className="group relative">
                 <Link
                   href={path}
-                  className="hover:text-[#AD7F2D] transition-colors duration-200 flex items-center gap-2"
+                  className="flex items-center justify-center p-2 rounded-full hover:bg-yellow-100 transition-all duration-300"
+                  title={label}
                 >
                   {icon}
-                  {label}
+                  <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-yellow-500 transition-all duration-300 group-hover:w-full -translate-x-1/2"></span>
                 </Link>
-              </motion.li>
+              </li>
             ))}
-          </motion.ul>
+          </ul>
 
-          {/* Hamburger */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6, duration: 0.4 }}
-            className="md:hidden text-[#3A2D00] text-2xl cursor-pointer transition-transform duration-300 hover:scale-110"
+          {/* Mobile Hamburger */}
+          <button
+            className="md:hidden text-[#3A2D00] text-2xl cursor-pointer hover:text-yellow-500 transition duration-300"
             onClick={toggleMenu}
           >
             <FaBars />
-          </motion.div>
-        </motion.div>
+          </button>
+        </div>
       </nav>
 
       {/* Mobile Slide-in Menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="fixed top-0 right-0 h-full w-3/4 max-w-xs bg-white/95 backdrop-blur-md shadow-2xl z-50 md:hidden"
-          >
-            <div className="p-6 flex flex-col gap-6 text-[#3A2D00] font-medium text-lg h-full relative">
-              <button
-                onClick={toggleMenu}
-                className="text-right text-2xl absolute top-5 right-5 hover:text-red-500 transition"
-              >
-                <FaTimes />
-              </button>
+    <AnimatePresence>
+  {menuOpen && (
+    <>
+      {/* Backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40"
+        onClick={toggleMenu} // ✅ Clicking backdrop closes menu
+      />
 
-              <motion.ul
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: { staggerChildren: 0.15, delayChildren: 0.2 },
-                  },
-                }}
-                className="mt-16 flex flex-col gap-5"
-              >
-                {navItems.map(({ label, path, icon }) => (
-                  <motion.li
-                    key={label}
-                    variants={{ hidden: { opacity: 0, x: 40 }, visible: { opacity: 1, x: 0 } }}
-                  >
-                    <Link
-                      href={path}
-                      onClick={toggleMenu}
-                      className="flex items-center gap-3 text-lg hover:text-[#AD7F2D] transition duration-200"
-                    >
-                      {icon} {label}
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ul>
+      {/* Slide-in Menu */}
+      <motion.div
+        initial={{ x: "100%" }}
+        animate={{ x: 0 }}
+        exit={{ x: "100%" }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
+        className="fixed top-0 right-0 h-full w-3/4 max-w-xs bg-white/95 backdrop-blur-xl shadow-2xl z-50"
+      >
+        <div className="flex flex-col h-full relative">
+          {/* Close Button */}
+          <button
+            onClick={toggleMenu}
+            className="absolute top-5 right-5 text-2xl text-[#3A2D00] hover:text-yellow-600 transition"
+          >
+            <FaTimes />
+          </button>
+
+          {/* Logo */}
+          <div className="flex justify-center mt-14">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-yellow-600 shadow-md">
+              <Image
+                src="/images/logo.jpg"
+                alt="The Thread Haus"
+                width={80}
+                height={80}
+                className="object-cover"
+              />
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+
+          {/* Navigation Items */}
+          <ul className="flex flex-col items-center gap-6 mt-10 text-[#3A2D00] font-medium text-lg">
+            {navItems.map(({ label, path, icon }) => (
+              <li key={label}>
+                <Link
+                  href={path}
+                  onClick={toggleMenu}
+                  className="flex items-center gap-3 px-6 py-3 rounded-full hover:bg-yellow-100 hover:scale-105 transition duration-300"
+                >
+                  <span className="text-xl">{icon}</span>
+                  <span>{label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Footer */}
+          <div className="mt-auto border-t border-gray-200 py-6 text-center text-sm text-[#3A2D00]/70">
+            <p>© {new Date().getFullYear()} The Thread Haus</p>
+            <p className="mt-1 text-xs tracking-wide">Crafted with Elegance</p>
+          </div>
+        </div>
+      </motion.div>
+    </>
+  )}
+</AnimatePresence>
+
+
+
     </div>
   );
 }
