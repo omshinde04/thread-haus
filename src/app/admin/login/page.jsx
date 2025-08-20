@@ -87,14 +87,14 @@ export default function AdminLogin() {
             href="/admin/forgot-password"
             className="text-[#f5e7ce] hover:underline"
           >
-            Forgot Password?
+          
           </a>
         </p>
 
         <p className="mt-6 text-center text-sm text-[#a99988]">
-          Don’t have an account?{" "}
+    
           <a href="/admin/signup" className="text-[#f5e7ce] hover:underline">
-            Sign up
+         
           </a>
         </p>
       </motion.div>
