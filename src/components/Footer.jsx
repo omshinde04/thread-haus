@@ -1,105 +1,126 @@
 "use client";
-import React from "react";
-import {
-  FaInstagram,
-  FaFacebookF,
-  FaTwitter,
-  FaEnvelope,
-} from "react-icons/fa";
-import Link from "next/link";
 
-const Footer = () => {
+import { motion } from "framer-motion";
+import { Mail, Instagram, Facebook } from "lucide-react";
+import { Josefin_Sans } from "next/font/google";
+
+// Import Josefin Sans
+const josefin = Josefin_Sans({ subsets: ["latin"], weight: ["400", "700"] });
+
+export default function Footer() {
   return (
-    <footer className="bg-[#1c150c] text-[#DBD5C7] py-10 px-6 md:px-20 font-poppins">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center md:text-left">
-        {/* Brand Info */}
-        <div className="md:col-span-2 flex flex-col items-center md:items-start">
-          <h2 className="text-2xl font-semibold mb-2">The Thread Haus</h2>
-          <p className="text-sm text-[#b9b0a2] max-w-xs">
-            Fashion that speaks identity. Genderless, bold, and unapologetically
-            you.
-          </p>
-          <div className="flex mt-4 space-x-4">
-            <a
-              href="https://www.instagram.com/the_thread_haus?igsh=NDd6MHR4MGlvaXox"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition"
-            >
-              <FaInstagram />
-            </a>
-            <a href="#" className="hover:text-white transition">
-              <FaFacebookF />
-            </a>
-            <a href="#" className="hover:text-white transition">
-              <FaTwitter />
-            </a>
-            <a
-              href="mailto:vijaykalantre10@gmail.com"
-              className="hover:text-white transition"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <FaEnvelope />
-            </a>
+    <footer className={`${josefin.className} relative bg-black text-gray-300 scroll-smooth border-t border-gray-800`}>
+      {/* Top Section */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, type: "spring" }}
+        >
+          {/* Brand Info */}
+          <div className="space-y-3">
+            <h2 className="text-2xl md:text-3xl font-bold text-white tracking-wide mb-2">
+              PRINT HOUSE
+            </h2>
+            <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+              Your style, your statement. Fashion that speaks for you.  
+              © 2025 PRINT HOUSE
+            </p>
+            <p className="text-gray-500 text-xs italic mt-2">
+              PRINT HOUSE is a premium clothing brand delivering style & comfort.
+            </p>
           </div>
-        </div>
 
-        {/* Links */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
-          <ul className="space-y-2 text-sm text-[#b9b0a2]">
-            <li>
-              <Link href="/" className="hover:text-white transition">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" className="hover:text-white transition">
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link href="/contact" className="hover:text-white transition">
-                Contact
-              </Link>
-            </li>
-             <li>
-              <Link href="/admin/login" className="hover:text-white transition">
-                Admin-login
-              </Link>
-            </li>
-          </ul>
-        </div>
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-white font-semibold text-sm mb-4 relative">
+              Quick Links
+              <span className="absolute -bottom-1 left-0 w-12 h-[2px] bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></span>
+            </h3>
+            <ul className="space-y-2 text-sm flex flex-col md:flex-row md:gap-6">
+              {[
+                { label: "Home", id: "home" },
+                { label: "About Us", id: "features" },
+                { label: "Shop", id: "shop" },
+                { label: "Contact", id: "contact" },
+              ].map((link) => (
+                <motion.li
+                  key={link.id}
+                  whileHover={{ x: 5, color: "#a78bfa" }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="cursor-pointer"
+                >
+                  <a href={`#${link.id}`} className="hover:underline">
+                    {link.label}
+                  </a>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        </motion.div>
 
-        {/* Newsletter */}
-        <div>
-          <h3 className="text-lg font-semibold mb-3">Join Our Tribe</h3>
-          <p className="text-sm text-[#b9b0a2] mb-3">
-            Be the first to know about new drops & exclusive offers.
-          </p>
-          <form className="flex flex-col sm:flex-row sm:items-center sm:space-x-2 space-y-2 sm:space-y-0">
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-3 py-2 rounded-md bg-[#2a2100] text-white placeholder-[#b9b0a2] border border-[#3a2d00] focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="bg-[#3A2D00] hover:bg-[#2a2100] text-white py-2 px-4 rounded-md transition"
+        {/* Divider */}
+        <motion.hr
+          className="my-10 border-gray-800"
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          transition={{ duration: 1 }}
+        />
+
+        {/* Bottom Row */}
+        <motion.div
+          className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-0"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.3 }}
+        >
+          {/* Email Button */}
+          <motion.a
+            href="mailto:contact@printhouse.com"
+            className="flex items-center gap-2 px-5 py-3 rounded-full border border-gray-700 hover:border-purple-500 hover:shadow-lg transition duration-300 text-sm bg-gray-900 text-white"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Mail className="w-4 h-4 text-white" />
+            contact@printhouse.com
+          </motion.a>
+
+          {/* Social Icons */}
+          <div className="flex gap-6 text-gray-400">
+            <motion.a
+              href="https://www.instagram.com/theprinthouse.xl"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.2, color: "#E4405F" }}
+              className="transition"
             >
-              Subscribe
-            </button>
-          </form>
-        </div>
+              <Instagram className="w-5 h-5" />
+            </motion.a>
+            <motion.a
+              href="https://www.facebook.com/theprinthouse"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.2, color: "#1877F2" }}
+              className="transition"
+            >
+              <Facebook className="w-5 h-5" />
+            </motion.a>
+          </div>
+        </motion.div>
       </div>
 
-      {/* Bottom Note */}
-      <div className="mt-10 border-t border-[#3a2d00] pt-4 text-center text-sm text-[#b9b0a2]">
-        © {new Date().getFullYear()} VOM. All rights reserved.
-      </div>
+      {/* Copyright */}
+      <motion.div
+        className="bg-[#0c0c0c] text-center py-5 text-xs text-gray-500 border-t border-gray-800"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 0.5 }}
+      >
+        © 2025 Developed by{" "}
+        <span className="text-purple-400 font-medium">omradixsolutions</span>. All
+        rights reserved.
+      </motion.div>
     </footer>
   );
-};
-
-export default Footer;
+}

@@ -10,6 +10,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import YouMightAlsoLike from "@/components/YouMightAlsoLike";
+import { Josefin_Sans } from "next/font/google";
+
+const josefin = Josefin_Sans({ subsets: ["latin"], weight: ["400", "700"] });
 
 const fadeUpVariant = {
   hidden: { opacity: 0, y: 40 },
@@ -92,11 +95,10 @@ Thank you! 😊`;
   window.open(url, "_blank");
 };
 
-
 return (
-  <section className="bg-white font-poppins py-16 px-4 sm:px-8 lg:px-20">
+  <section className={`${josefin.className} bg-white py-16 px-4 sm:px-8 lg:px-20`}>
     {loading ? (
-      <p className="text-center text-lg text-[#5F4B32]">Loading...</p>
+      <p className="text-center text-lg text-black/90">Loading...</p>
     ) : (
       <motion.div
         className="grid grid-cols-1 md:grid-cols-2 gap-14 items-start"
@@ -105,12 +107,8 @@ return (
         viewport={{ once: true }}
       >
         {/* Product Images */}
-        <motion.div
-          variants={fadeUpVariant}
-          custom={0}
-          className="w-full max-w-sm mx-auto"
-        >
-          <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-white border border-[#ddd] shadow-lg">
+        <motion.div variants={fadeUpVariant} custom={0} className="w-full max-w-sm mx-auto">
+          <div className="relative w-full aspect-[3/4] overflow-hidden bg-white border border-gray-300 shadow-md">
             {product.images?.length > 0 ? (
               <Swiper
                 modules={[Pagination]}
@@ -126,13 +124,13 @@ return (
                     <img
                       src={imgUrl}
                       alt={`${product.name} - ${idx + 1}`}
-                      className="w-full h-full object-cover rounded-2xl transition-all duration-300"
+                      className="w-full h-full object-cover transition-all duration-300"
                     />
                   </SwiperSlide>
                 ))}
               </Swiper>
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-400">
+              <div className="w-full h-full flex items-center justify-center text-black/40">
                 No images available
               </div>
             )}
@@ -141,30 +139,26 @@ return (
 
         {/* Product Info */}
         <motion.div variants={fadeUpVariant} custom={0.2}>
-          <h1 className="text-4xl font-bold text-[#3A2D00] mb-4 tracking-tight leading-snug">
+          <h1 className="text-4xl font-bold text-black mb-4 tracking-tight leading-snug">
             {product.name}
           </h1>
-          <p className="text-2xl text-[#5F4B32] font-semibold mb-2">
+          <p className="text-2xl text-black font-semibold mb-2">
             ₹{product.price.toLocaleString("en-IN")}.00
           </p>
-          <p className="text-base text-[#444] mb-6 leading-relaxed">
-            {product.description}
-          </p>
+          <p className="text-base text-black/90 mb-6 leading-relaxed">{product.description}</p>
 
           {/* Size Selector */}
           <div className="mb-6">
-            <h3 className="font-semibold text-[#3A2D00] mb-2 text-lg">
-              Select Size
-            </h3>
+            <h3 className="font-semibold text-black mb-2 text-lg">Select Size</h3>
             <div className="flex gap-3 flex-wrap">
               {product.sizes?.map((size) => (
                 <button
                   key={size}
                   onClick={() => setSelectedSize(size)}
-                  className={`px-4 py-2 rounded-full border text-sm font-medium transition-all duration-200 ${
+                  className={`px-4 py-2 border text-sm font-medium transition-all duration-200 ${
                     selectedSize === size
-                      ? "bg-[#3A2D00] text-white border-[#3A2D00]"
-                      : "border-[#3A2D00] text-[#3A2D00] hover:bg-[#f3eee9]"
+                      ? "bg-black text-white border-black"
+                      : "border-black text-black hover:bg-gray-100"
                   }`}
                 >
                   {size}
@@ -175,18 +169,14 @@ return (
 
           {/* Color Selector */}
           <div className="mb-8">
-            <h3 className="font-semibold text-[#3A2D00] mb-2 text-lg">
-              Choose Color
-            </h3>
+            <h3 className="font-semibold text-black mb-2 text-lg">Choose Color</h3>
             <div className="flex gap-4">
               {product.colors?.map((color, i) => (
                 <div
                   key={i}
                   onClick={() => setSelectedColor(color)}
-                  className={`w-9 h-9 rounded-full cursor-pointer border-4 transition-all duration-200 ${
-                    selectedColor === color
-                      ? "border-[#3A2D00] scale-110"
-                      : "border-gray-300"
+                  className={`w-9 h-9 cursor-pointer border-4 transition-all duration-200 ${
+                    selectedColor === color ? "border-black scale-110" : "border-gray-300"
                   }`}
                   style={{ backgroundColor: color }}
                 />
@@ -196,10 +186,8 @@ return (
 
           {/* WhatsApp Order Button */}
           <button
-            className={`bg-[#25D366] text-white px-6 py-3 rounded-full text-base font-semibold shadow-md hover:bg-[#1EBE5D] flex items-center justify-center gap-2 transition-all duration-200 ${
-              !selectedSize || !selectedColor
-                ? "opacity-50 cursor-not-allowed"
-                : ""
+            className={`bg-[#25D366] text-white px-6 py-3 text-base font-semibold shadow-md hover:bg-[#1EBE5D] flex items-center justify-center gap-2 transition-all duration-200 ${
+              !selectedSize || !selectedColor ? "opacity-50 cursor-not-allowed" : ""
             }`}
             onClick={handleWhatsAppOrder}
             disabled={!selectedSize || !selectedColor}
@@ -216,5 +204,6 @@ return (
     </div>
   </section>
 );
+
 
 }

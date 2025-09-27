@@ -4,6 +4,8 @@ import { useRef } from "react";
 import GenreSection from "@/components/GenreSection";
 import HeroSection from "@/components/HeroSection";
 import LatestArrivals from "@/components/LatestArrivals";
+import Feature from "@/components/Feature";
+import Contact from "@/components/Contact";
 
 export default function Home() {
   const latestArrivalsRef = useRef(null);
@@ -16,10 +18,12 @@ export default function Home() {
 
   return (
     <main className="flex-grow">
-      <HeroSection onNewCollectionClick={handleNewCollectionClick} />
+      <HeroSection />
+      <Feature/>
       <GenreSection />
       <div ref={latestArrivalsRef}>
         <LatestArrivals />
+        <Contact/>
       </div>
     </main>
   );
