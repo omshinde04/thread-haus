@@ -7,6 +7,7 @@ import LatestArrivals from "@/components/LatestArrivals";
 import Feature from "@/components/Feature";
 import Contact from "@/components/Contact";
 // import About from "@/components/About"; 
+ import Offer from "@/components/Offer"; 
 
 export default function Home() {
   const latestArrivalsRef = useRef(null);
@@ -26,6 +27,7 @@ export default function Home() {
       <div ref={latestArrivalsRef}>
         <LatestArrivals />
         <Contact/>
+         <Offer/>
       </div>
     </main>
   );
