@@ -5,12 +5,13 @@ import { useParams, notFound } from "next/navigation";
 import { FaWhatsapp } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
+import {  Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import YouMightAlsoLike from "@/components/YouMightAlsoLike";
 import { Josefin_Sans } from "next/font/google";
+import namer from "color-namer";
 
 const josefin = Josefin_Sans({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -62,22 +63,9 @@ if (!res.ok) {
   if (!loading && !product) return notFound();
 
 const handleWhatsAppOrder = () => {
-  const colorMap = {
-    "#000000": "Black",
-    "#FFFFFF": "White",
-    "#FF0000": "Red",
-    "#00FF00": "Green",
-    "#0000FF": "Blue",
-    "#FFFF00": "Yellow",
-    "#FFA500": "Orange",
-    "#800080": "Purple",
-    "#FFC0CB": "Pink",
-    "#A52A2A": "Brown",
-    "#808080": "Gray",
-    "#C0C0C0": "Silver",
-  };
-
-  const readableColor = selectedColor ? (colorMap[selectedColor.toUpperCase()] || selectedColor) : "Not selected";
+  const readableColor = selectedColor
+    ? namer(selectedColor).basic[0].name // gets closest basic color name
+    : "Not selected";
 
   const message = `I'm interested in purchasing the following item from your store:
 
@@ -91,7 +79,7 @@ Please share the details regarding availability, payment, and delivery. Looking 
 
 Thank you! 😊`;
 
-  const url = `https://wa.me/918956554715?text=${encodeURIComponent(message)}`;
+  const url = `https://wa.me/919834186144?text=${encodeURIComponent(message)}`;
   window.open(url, "_blank");
 };
 

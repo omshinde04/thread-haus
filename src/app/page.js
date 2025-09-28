@@ -6,6 +6,7 @@ import HeroSection from "@/components/HeroSection";
 import LatestArrivals from "@/components/LatestArrivals";
 import Feature from "@/components/Feature";
 import Contact from "@/components/Contact";
+// import About from "@/components/About"; 
 
 export default function Home() {
   const latestArrivalsRef = useRef(null);
@@ -20,6 +21,7 @@ export default function Home() {
     <main className="flex-grow">
       <HeroSection />
       <Feature/>
+      {/* <About/>  */}
       <GenreSection />
       <div ref={latestArrivalsRef}>
         <LatestArrivals />
